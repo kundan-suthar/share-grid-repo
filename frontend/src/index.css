@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+:root {
+  --background: #131315;
+  --surface: #201f21;
+  --surface-low: #1b1b1d;
+
+  --primary: #d2bbff;
+  --primary-container: #7c3aed;
+
+  --secondary: #4cd7f6;
+
+  --outline: #4a4455;
+
+  --text: #e5e1e4;
+  --text-muted: #ccc3d8;
+}
+
+body {
+  background-color: #0d0d0f;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+
+  background-size: 32px 32px;
+}
