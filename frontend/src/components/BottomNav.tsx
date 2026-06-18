@@ -1,4 +1,8 @@
-export default function BottomNav() {
+type BottomNavProps = {
+  onOpenLeaderboard: () => void;
+};
+
+export default function BottomNav({ onOpenLeaderboard }: BottomNavProps) {
   return (
     <nav
       className="
@@ -22,7 +26,12 @@ export default function BottomNav() {
         <span className="material-symbols-outlined">map</span>
       </button>
 
-      <button className="text-white bg-violet-600 p-3 rounded-full">
+      <button
+        type="button"
+        onClick={onOpenLeaderboard}
+        className="rounded-full bg-violet-600 p-3 text-white"
+        aria-label="Open leaderboard"
+      >
         <span className="material-symbols-outlined">
           leaderboard
         </span>

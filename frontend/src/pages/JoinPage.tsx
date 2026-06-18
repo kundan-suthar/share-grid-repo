@@ -1,15 +1,33 @@
 import { useState } from "react";
+import { usersApi } from "../api/users.api";
+import type { ApiError } from "../lib/axios";
+import type { User } from "../types/user";
+import { storeUser } from "../utils/storage";
+import { useToast } from "../hooks/useToast";
 
-export default function JoinPage() {
+type JoinPageProps = {
+    onJoined: (user: User) => void;
+};
+
+export default function JoinPage({ onJoined }: JoinPageProps) {
     const [username, setUsername] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+    const { showToast } = useToast();
 
-    const handleJoin = () => {
+    const handleJoin = async () => {
         if (!username.trim()) return;
 
-        console.log(username);
+        setSubmitting(true);
 
-        // socket connect
-        // navigate("/grid")
+        try {
+            const user = await usersApi.createUser({ username: username.trim() });
+            storeUser(user);
+            onJoined(user);
+        } catch (error) {
+            showToast((error as ApiError).message || "Unable to join the grid", "error");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -62,7 +80,13 @@ export default function JoinPage() {
                         <input
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    void handleJoin();
+                                }
+                            }}
                             placeholder="Enter a name..."
+                            disabled={submitting}
                             className="
                 w-full
                 rounded-full
@@ -81,6 +105,7 @@ export default function JoinPage() {
 
                         <button
                             onClick={handleJoin}
+                            disabled={submitting || !username.trim()}
                             className="
                 w-full
                 rounded-full
@@ -91,9 +116,11 @@ export default function JoinPage() {
                 transition
                 hover:brightness-110
                 active:scale-95
+                disabled:cursor-not-allowed
+                disabled:opacity-50
               "
                         >
-                            ENTER THE GRID
+                            {submitting ? "JOINING..." : "ENTER THE GRID"}
                         </button>
                     </div>
 

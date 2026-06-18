@@ -5,7 +5,19 @@ import {
 
 import Grid from "./Grid";
 
-export default function GridCanvas() {
+type GridCanvasProps = {
+    loading: boolean;
+};
+
+export default function GridCanvas({ loading }: GridCanvasProps) {
+    if (loading) {
+        return (
+            <div className="rounded-lg border border-white/10 bg-black/40 px-5 py-4 text-sm text-zinc-300 backdrop-blur-xl">
+                Loading grid...
+            </div>
+        );
+    }
+
     return (
         <TransformWrapper
             initialScale={1}
