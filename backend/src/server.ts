@@ -5,11 +5,14 @@ import { closeDatabase } from './db/client.js';
 import { createApp } from './app.js';
 import { connectRedis, closeRedis } from './sockets/redis.js';
 import { createSocketGateway } from './sockets/gateway.js';
+import { PresenceService } from './sockets/presence.service.js';
 
 const app = createApp();
 const httpServer = createServer(app);
 
 await connectRedis();
+const presenceService = new PresenceService();
+await presenceService.reset();
 const io = createSocketGateway(httpServer);
 
 httpServer.listen(env.PORT, () => {

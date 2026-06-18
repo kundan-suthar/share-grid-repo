@@ -32,4 +32,14 @@ export class PresenceService {
       throw err;
     }
   }
+
+  async reset() {
+    try {
+      await redisPresence.del(PRESENCE_KEY);
+      logger.info('Presence data reset');
+    } catch (err) {
+      logger.error({ err }, 'Presence reset error');
+      throw err;
+    }
+  }
 }
