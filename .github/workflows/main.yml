@@ -1,0 +1,11 @@
+name: Keep Render Alive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl https://share-grid-repo.onrender.com/api/v1/health
